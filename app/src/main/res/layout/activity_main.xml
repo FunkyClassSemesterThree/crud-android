@@ -54,20 +54,13 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/customerPhoneNumber"/>
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/customerBusiness"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/customerGender"/>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="ADD NEW CUSTOMER"
         android:id="@+id/customerSubmitBtn"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/customerBusiness"
+        android:layout_below="@id/customerGender"
         android:textSize="20sp" />
 
     <TextView

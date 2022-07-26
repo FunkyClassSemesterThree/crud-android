@@ -3,40 +3,30 @@ package com.dele.my.project.crudandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.dele.my.project.crudandroid.operations.db.CustomerRecords;
+import com.dele.my.project.crudandroid.operations.pojo.Customers;
+import com.dele.my.project.crudandroid.operations.utils.AppConstants;
+import com.dele.my.project.crudandroid.operations.utils.Helper;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText customerFullName, customerEmailAddress, customerPhoneNumber;
-    private Spinner customerGender, customerBusiness;
+    private Spinner customerGender;
     private Button customerSubmitBtn;
     private TextView formMessageField;
 
-    private final String[] genderList = {
-            "Male",
-            "Female"
-    };
-
-    private final String[] businessList = {
-            "Hansen Pharmaceuticals",
-            "Blessed Okeyson and Sons"
-    };
+    private CustomerRecords customerRecords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setupViews();
-
-        // this will display genders
-        setupDropdownResource(customerGender, genderList);
-        // this will display businesses
-        setupDropdownResource(customerBusiness, businessList);
     }
 
     /**
@@ -50,22 +40,33 @@ public class MainActivity extends AppCompatActivity {
 
         // Spinners (Dropdown)
         customerGender = findViewById(R.id.customerGender);
-        customerBusiness = findViewById(R.id.customerBusiness);
 
         // Buttons
         customerSubmitBtn = findViewById(R.id.customerSubmitBtn);
 
         // TextViews
         formMessageField = findViewById(R.id.formMessageField);
+
+        customerRecords = new CustomerRecords(this);
+
+        // this will display genders
+        Helper.setupDropdownResource(this, customerGender, AppConstants.genderList);
+
+        handleSubmit();
     }
 
-    /**
-     * This method helps us to generate a dropdown list item
-     */
-    private void setupDropdownResource(Spinner spinner, String[] items) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_dropdown_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+    private void handleSubmit() {
+        customerSubmitBtn.setOnClickListener(view -> {
+            String fullName = customerFullName.getText().toString();
+            String emailAddress = customerEmailAddress.getText().toString();
+            String phoneNumber = customerPhoneNumber.getText().toString();
+            String gender = customerGender.getSelectedItem().toString();
+            Long isCreated = customerRecords.createCustomer(
+                    new Customers(fullName, emailAddress, phoneNumber, gender, "", Helper.generateUUID())
+            );
+            if (isCreated > 0) formMessageField.setText(AppConstants.CUSTOMER_SUCCESS_MESSAGE);
+            else formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
+        });
     }
+
 }

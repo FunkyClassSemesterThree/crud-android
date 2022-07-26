@@ -7,6 +7,26 @@ public class Customers {
     public Customers() {
     }
 
+    public Customers(String fullName, String emailAddress, String gender, String phoneNumber, String referral, String uuid) {
+        this.fullName = fullName;
+        this.emailAddress = emailAddress;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.referral = referral;
+        this.uuid = uuid;
+    }
+
+    public Customers(Long id, String fullName, String emailAddress, String gender, String dateCreated, String phoneNumber, String referral, String uuid) {
+        this.id = id;
+        this.fullName = fullName;
+        this.emailAddress = emailAddress;
+        this.gender = gender;
+        this.dateCreated = dateCreated;
+        this.phoneNumber = phoneNumber;
+        this.referral = referral;
+        this.uuid = uuid;
+    }
+
     public Customers(String fullName, String emailAddress, String gender, String dateCreated, String phoneNumber, String referral, String uuid) {
         this.fullName = fullName;
         this.emailAddress = emailAddress;
