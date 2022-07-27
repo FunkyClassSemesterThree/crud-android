@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/deele/AndroidStudioProjects/CrudAndroid/app/src/main/res/layout/activity_list_customers.xml" value="0.1621376811594203" />
         <entry key="..\:/Users/deele/AndroidStudioProjects/CrudAndroid/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/deele/AndroidStudioProjects/CrudAndroid/app/src/main/res/layout/customer_data.xml" value="0.3551587301587302" />
       </map>
     </option>
   </component>

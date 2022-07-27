@@ -6,70 +6,91 @@
     android:layout_margin="20dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/descriptionMainText"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="PLEASE ADD CUSTOMER DETAILS BELOW:" />
-
-    <EditText
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:inputType="text"
-        android:hint="ENTER YOUR FULL NAME"
-        android:autofillHints="name"
-        android:ems="20"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/descriptionMainText"
-        android:id="@+id/customerFullName" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:inputType="textEmailAddress"
-        android:hint="ENTER YOUR EMAIL ADDRESS"
-        android:autofillHints="emailAddress"
-        android:ems="20"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/customerFullName"
-        android:id="@+id/customerEmailAddress" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:inputType="phone"
-        android:hint="ENTER YOUR PHONE NUMBER"
-        android:autofillHints="phone"
-        android:ems="20"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/customerEmailAddress"
-        android:id="@+id/customerPhoneNumber" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionMainText"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:text="PLEASE ADD CUSTOMER DETAILS BELOW:" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/customerGender"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/customerPhoneNumber"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="text"
+                android:hint="ENTER YOUR FULL NAME"
+                android:autofillHints="name"
+                android:ems="20"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/descriptionMainText"
+                android:id="@+id/customerFullName" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="ADD NEW CUSTOMER"
-        android:id="@+id/customerSubmitBtn"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/customerGender"
-        android:textSize="20sp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="textEmailAddress"
+                android:hint="ENTER YOUR EMAIL ADDRESS"
+                android:autofillHints="emailAddress"
+                android:ems="20"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/customerFullName"
+                android:id="@+id/customerEmailAddress" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="I AM A DEFAULT MESSAGE"
-        android:layout_below="@id/customerSubmitBtn"
-        android:layout_marginTop="30dp"
-        android:textSize="30sp"
-        android:id="@+id/formMessageField" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="phone"
+                android:hint="ENTER YOUR PHONE NUMBER"
+                android:autofillHints="phone"
+                android:ems="20"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/customerEmailAddress"
+                android:id="@+id/customerPhoneNumber" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/customerGender"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/customerPhoneNumber"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="ADD NEW CUSTOMER"
+                android:id="@+id/customerSubmitBtn"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/customerGender"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="I AM A DEFAULT MESSAGE"
+                android:layout_below="@id/customerSubmitBtn"
+                android:layout_marginTop="30dp"
+                android:textSize="30sp"
+                android:id="@+id/formMessageField" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="VIEW CUSTOMERS"
+                android:id="@+id/viewListCustomers"
+                android:layout_marginTop="50dp"
+                android:layout_below="@id/formMessageField"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

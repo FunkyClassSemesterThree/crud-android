@@ -5,13 +5,12 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.dele.my.project.crudandroid.operations.pojo.Customers;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
 
 public class Helper {
 
@@ -36,8 +35,11 @@ public class Helper {
     }
 
     public static String generateUUID() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString();
+        return UUID.randomUUID().toString();
+    }
+
+    public static Boolean isEmailAddress(String identification) {
+        return  AppConstants.EMAIL_REGEX_PATTERN.matcher(identification).matches();
     }
 
 }

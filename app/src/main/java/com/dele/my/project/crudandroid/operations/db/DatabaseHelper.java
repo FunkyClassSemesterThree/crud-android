@@ -41,4 +41,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.write().insert(table, null, contentValues);
     }
 
+    protected Integer update(Map<String, String> map, String table, String whereStatement, String[] updatableArg) {
+        ContentValues contentValues = Helper.createRecord(map);
+        return this.write().update(table, contentValues, whereStatement, updatableArg);
+    }
+
 }
