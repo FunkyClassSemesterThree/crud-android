@@ -1,7 +1,9 @@
 package com.dele.my.project.crudandroid.operations.db.customers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -21,7 +23,7 @@ public class CustomerRecords extends DatabaseHelper {
         super(context);
     }
 
-    public Long createCustomer(Customers customer) {
+    public long createCustomer(Customers customer) {
         Map<String, String> map = new HashMap<>();
         map.put("FULL_NAME", customer.getFullName());
         map.put("EMAIL_ADDRESS", customer.getEmailAddress());
@@ -31,36 +33,68 @@ public class CustomerRecords extends DatabaseHelper {
         return this.create(map, AppConstants.CUSTOMER_TABLE_NAME);
     }
 
-    public Customers findByCustomerIdentity(String identification) {
-        String column = determineColumn(identification);
-        Cursor cursor = this.read().rawQuery(Queries.RETRIEVE_CUSTOMER_RECORD + " WHERE " + column + " = ?", new String[] {
+    public Integer updateCustomer(Customers customer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("FULL_NAME", customer.getFullName());
+        map.put("EMAIL_ADDRESS", customer.getEmailAddress());
+        map.put("GENDER", customer.getGender());
+        map.put("PHONE_NUMBER", customer.getPhoneNumber());
+        return this.update(map, AppConstants.CUSTOMER_TABLE_NAME, "id = ?", new String[] {
+                customer.getId() + ""
+        });
+    }
+
+    @SuppressLint("Range")
+    public Customers findByCustomerIdentity(String identification, int customerId) {
+
+        if ("".equals(identification) && customerId == 0) {
+            // throw an error here
+        }
+
+        String column = ("".equals(identification)) ? "ID" : determineColumn(identification);
+        identification = ("".equals(identification)) ? customerId + "" : identification;
+
+        Cursor cursor = this.read().rawQuery(Queries.RETRIEVE_CUSTOMER_RECORD + " WHERE " + column + " = ?", new String[]{
                 identification
         });
         cursor.moveToFirst();
         Customers customer = null;
         if (cursor.isFirst()) {
             customer = new Customers(
-                            cursor.getLong(0), cursor.getString(1),
-                            cursor.getString(2), cursor.getString(3),
-                            cursor.getString(4), cursor.getString(5),
-                            cursor.getString(6), cursor.getString(7));
+                    cursor.getLong(cursor.getColumnIndex("ID")),
+                    cursor.getString(cursor.getColumnIndex("FULL_NAME")),
+                    cursor.getString(cursor.getColumnIndex("EMAIL_ADDRESS")),
+                    cursor.getString(cursor.getColumnIndex("GENDER")),
+                    cursor.getString(cursor.getColumnIndex("DATE_CREATED")),
+                    cursor.getString(cursor.getColumnIndex("PHONE_NUMBER")),
+                    cursor.getString(cursor.getColumnIndex("REFERRAL")),
+                    cursor.getString(cursor.getColumnIndex("UUID"))
+            );
         }
         cursor.close();
         return customer;
     }
 
+    @SuppressLint("Range")
     public ArrayList<Customers> getAllCustomers() {
         Cursor cursor = this.read().rawQuery(Queries.RETRIEVE_CUSTOMER_RECORD, null);
-        cursor.moveToFirst();
         ArrayList<Customers> allCustomers = new ArrayList<>();
+
+        cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             allCustomers.add(
                     new Customers(
-                            cursor.getLong(0), cursor.getString(1),
-                            cursor.getString(2), cursor.getString(3),
-                            cursor.getString(4), cursor.getString(5),
-                            cursor.getString(6), cursor.getString(7))
+                            cursor.getLong(cursor.getColumnIndex("ID")),
+                            cursor.getString(cursor.getColumnIndex("FULL_NAME")),
+                            cursor.getString(cursor.getColumnIndex("EMAIL_ADDRESS")),
+                            cursor.getString(cursor.getColumnIndex("GENDER")),
+                            cursor.getString(cursor.getColumnIndex("DATE_CREATED")),
+                            cursor.getString(cursor.getColumnIndex("PHONE_NUMBER")),
+                            cursor.getString(cursor.getColumnIndex("REFERRAL")),
+                            cursor.getString(cursor.getColumnIndex("UUID"))
+                    )
             );
+            cursor.moveToNext();
         }
         cursor.close();
         return allCustomers;

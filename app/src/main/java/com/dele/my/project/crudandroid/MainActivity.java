@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -23,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView formMessageField;
 
     private CustomerRecords customerRecords;
+
+    private Bundle bundle;
+
+    private int customerId = 0;
+
+    private Customers defaultCustomer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         formMessageField = findViewById(R.id.formMessageField);
 
         customerRecords = new CustomerRecords(this);
+
+        bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            customerId = bundle.getInt(AppConstants.CUSTOMER_ID_KEY);
+        }
 
         // this will display genders
         Helper.setupDropdownResource(this, customerGender, AppConstants.genderList);
@@ -86,31 +99,58 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            if (customerRecords.findByCustomerIdentity(emailAddress) != null) {
+            if (!Helper.isEmailAddress(emailAddress)) {
                 formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
                 return;
             }
 
-            if (customerRecords.findByCustomerIdentity(fullName) != null) {
+            if (customerRecords.findByCustomerIdentity(emailAddress, 0) != null) {
                 formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
                 return;
             }
 
-            Long isCreated = customerRecords.createCustomer(
-                    new Customers(fullName, emailAddress, phoneNumber, gender, "", Helper.generateUUID())
-            );
-            if (isCreated > 0) {
+            if (customerRecords.findByCustomerIdentity(fullName, 0) != null) {
+                formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
+                return;
+            }
+
+            int actionPerformed = 0;
+
+            if (customerId == 0 && defaultCustomer == null) {
+                actionPerformed = (int) customerRecords.createCustomer(
+                        new Customers(fullName, emailAddress, phoneNumber, gender, "", Helper.generateUUID())
+                );
+            }
+            else {
+                actionPerformed = customerRecords.updateCustomer(
+                        new Customers(customerId, fullName, emailAddress, gender, phoneNumber)
+                );
+            }
+
+            if (actionPerformed > 0) {
                 formMessageField.setText(AppConstants.CUSTOMER_SUCCESS_MESSAGE);
-                Toast.makeText(this, AppConstants.CUSTOMER_SUCCESS_MESSAGE, Toast.LENGTH_LONG);
-            }
-            else formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
+                Toast.makeText(this, AppConstants.CUSTOMER_SUCCESS_MESSAGE, Toast.LENGTH_LONG).show();
+            } else formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
+
         });
     }
 
     private void handleNavigate() {
         viewListCustomers.setOnClickListener(view -> {
-            startActivity(new Intent(this, ListCustomersActivity.class));
+            Helper.navigate(this, ListCustomersActivity.class, null);
         });
+    }
+
+    private void populateByCustomerId() {
+        Log.i(AppConstants.APPLICATION_TAG, "WE CURRENTLY HAVE THE CUSTOMER OF ID: " + customerId);
+        if (customerId != 0) {
+            defaultCustomer = customerRecords.findByCustomerIdentity("", customerId);
+            if (defaultCustomer != null) {
+                customerFullName.setText(defaultCustomer.getFullName());
+                customerEmailAddress.setText(defaultCustomer.getEmailAddress());
+                customerPhoneNumber.setText(defaultCustomer.getPhoneNumber());
+            }
+        }
     }
 
 }

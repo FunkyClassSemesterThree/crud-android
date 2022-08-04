@@ -7,6 +7,20 @@ public class Customers {
     public Customers() {
     }
 
+    @Override
+    public String toString() {
+        return "Customers{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dateCreated='" + dateCreated + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", referral='" + referral + '\'' +
+                ", uuid='" + uuid + '\'' +
+                '}';
+    }
+
     public Customers(String fullName, String emailAddress, String gender, String phoneNumber, String referral, String uuid) {
         this.fullName = fullName;
         this.emailAddress = emailAddress;
@@ -25,6 +39,14 @@ public class Customers {
         this.phoneNumber = phoneNumber;
         this.referral = referral;
         this.uuid = uuid;
+    }
+
+    public Customers(int id, String fullName, String emailAddress, String gender, String phoneNumber) {
+        this.id = (long) id;
+        this.fullName = fullName;
+        this.emailAddress = emailAddress;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
     }
 
     public Customers(String fullName, String emailAddress, String gender, String dateCreated, String phoneNumber, String referral, String uuid) {

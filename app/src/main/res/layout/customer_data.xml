@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    android:id="@+id/customerDataRL"
     android:padding="15dp">
 
     <TextView
@@ -11,5 +12,21 @@
         android:textSize="25sp"
         android:text="Example 1"
         android:id="@+id/listItemCustomerFullName" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listItemCustomerFullName"
+        android:id="@+id/editCustomerData"
+        android:text="EDIT"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editCustomerData"
+        android:id="@+id/deleteCustomerData"
+        android:text="DELETE"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

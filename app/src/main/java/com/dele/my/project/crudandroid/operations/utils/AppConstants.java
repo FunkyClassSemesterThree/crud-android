@@ -19,4 +19,8 @@ public class AppConstants {
 
     public static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
 
+    public static final String APPLICATION_TAG = "CRUD_ANDROID";
+
+    public static final String CUSTOMER_ID_KEY = "CUS_KEY";
+
 }

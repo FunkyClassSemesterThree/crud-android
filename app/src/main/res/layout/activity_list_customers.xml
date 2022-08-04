@@ -4,11 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="12dp"
+    android:padding="12dp"
     tools:context=".ListCustomersActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="ADD NEW CUSTOMER"
+        android:id="@+id/addNewCustomersActivity"
+        android:textSize="20sp" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/addNewCustomersActivity"
         android:id="@+id/listViewForCustomers" />
 
 </RelativeLayout>

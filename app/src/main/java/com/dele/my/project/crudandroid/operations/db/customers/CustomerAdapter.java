@@ -1,21 +1,39 @@
 package com.dele.my.project.crudandroid.operations.db.customers;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.dele.my.project.crudandroid.MainActivity;
 import com.dele.my.project.crudandroid.R;
 import com.dele.my.project.crudandroid.operations.pojo.Customers;
+import com.dele.my.project.crudandroid.operations.pojo.IntentExtra;
+import com.dele.my.project.crudandroid.operations.utils.AppColors;
+import com.dele.my.project.crudandroid.operations.utils.AppConstants;
+import com.dele.my.project.crudandroid.operations.utils.Helper;
 
 import java.util.ArrayList;
 
 public class CustomerAdapter extends ArrayAdapter<Customers> {
+
+    CustomerEditButtonClick customerEditButtonClick;
+
+    public interface CustomerEditButtonClick {
+        public void onButtonClickListener(int position, Customers customer);
+    }
+
+    public void setCustomerEditButtonListener(CustomerEditButtonClick listener) {
+        this.customerEditButtonClick = listener;
+    }
 
     public CustomerAdapter(@NonNull Context context, ArrayList<Customers> customers) {
         super(context, 0, customers);
@@ -34,9 +52,28 @@ public class CustomerAdapter extends ArrayAdapter<Customers> {
 
         // lookup existing view in inflated layout
         TextView fullNameTextVew = convertView.findViewById(R.id.listItemCustomerFullName);
+        RelativeLayout layout = convertView.findViewById(R.id.customerDataRL);
+        Button editCustomerBtn = convertView.findViewById(R.id.editCustomerData);
+        Button deleteCustomerBtn = convertView.findViewById(R.id.deleteCustomerData);
+
+        if (position % 2 == 0) {
+            layout.setBackgroundColor(Color.BLACK);
+            fullNameTextVew.setTextColor(Color.WHITE);
+        }
+        else {
+            layout.setBackgroundColor(Color.GRAY);
+            fullNameTextVew.setTextColor(Color.YELLOW);
+        }
 
         // populate data to the view rendered above via the data object
-        fullNameTextVew.setText(customer.getFullName());
+        fullNameTextVew.setText(Helper.capitalizeFirstLetterEachWord(customer.getFullName()));
+
+        // onclick edit button
+        editCustomerBtn.setOnClickListener(view -> {
+            if (customerEditButtonClick != null) {
+                customerEditButtonClick.onButtonClickListener(position, customer);
+            }
+        });
 
         // return the completed view to screen
         return convertView;
