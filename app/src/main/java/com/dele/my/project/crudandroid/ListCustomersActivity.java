@@ -2,10 +2,8 @@ package com.dele.my.project.crudandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -19,7 +17,7 @@ import com.dele.my.project.crudandroid.operations.utils.Helper;
 import java.util.ArrayList;
 
 public class ListCustomersActivity extends AppCompatActivity
-        implements CustomerAdapter.CustomerEditButtonClick {
+        implements CustomerAdapter.CustomerButtonClick {
 
     private CustomerRecords customerRecords;
     private ListView listViewForCustomers;
@@ -45,20 +43,28 @@ public class ListCustomersActivity extends AppCompatActivity
     private void populateCustomers() {
         ArrayList<Customers> allCustomers = customerRecords.getAllCustomers();
         CustomerAdapter customerAdapter = new CustomerAdapter(this, allCustomers);
-        customerAdapter.setCustomerEditButtonListener(ListCustomersActivity.this);
+        customerAdapter.setCustomerButtonListener(ListCustomersActivity.this);
         listViewForCustomers.setAdapter(customerAdapter);
     }
 
     private void handleNavigate() {
-        addNewCustomersActivity.setOnClickListener(view -> {
-            Helper.navigate(this, MainActivity.class, null);
-        });
+        addNewCustomersActivity.setOnClickListener(view -> Helper.navigate(this, MainActivity.class, null));
     }
 
     @Override
-    public void onButtonClickListener(int position, Customers customer) {
-        Helper.navigate(this, MainActivity.class,
-                        new IntentExtra(AppConstants.CUSTOMER_ID_KEY, customer.getId()));
+    public void onButtonClickListener(int position, Customers customer, String action) {
+        if ("EDIT".equals(action)) {
+            // handle edit logic
+            Helper.navigate(this, MainActivity.class,
+                    new IntentExtra(AppConstants.CUSTOMER_ID_KEY, customer.getId()));
+        }
+
+        if ("DELETE".equals(action)) {
+            // handle delete logic
+            int hasBeenDeleted = customerRecords.deleteCustomer(customer.getId().intValue());
+            if (hasBeenDeleted > 0) populateCustomers();
+        }
+
     }
 
 }

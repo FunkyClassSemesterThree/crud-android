@@ -13,26 +13,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.dele.my.project.crudandroid.MainActivity;
 import com.dele.my.project.crudandroid.R;
 import com.dele.my.project.crudandroid.operations.pojo.Customers;
-import com.dele.my.project.crudandroid.operations.pojo.IntentExtra;
-import com.dele.my.project.crudandroid.operations.utils.AppColors;
-import com.dele.my.project.crudandroid.operations.utils.AppConstants;
 import com.dele.my.project.crudandroid.operations.utils.Helper;
 
 import java.util.ArrayList;
 
 public class CustomerAdapter extends ArrayAdapter<Customers> {
 
-    CustomerEditButtonClick customerEditButtonClick;
+    CustomerButtonClick customerButtonClick;
 
-    public interface CustomerEditButtonClick {
-        public void onButtonClickListener(int position, Customers customer);
+    public interface CustomerButtonClick {
+        void onButtonClickListener(int position, Customers customer, String action);
     }
 
-    public void setCustomerEditButtonListener(CustomerEditButtonClick listener) {
-        this.customerEditButtonClick = listener;
+    public void setCustomerButtonListener(CustomerButtonClick listener) {
+        this.customerButtonClick = listener;
     }
 
     public CustomerAdapter(@NonNull Context context, ArrayList<Customers> customers) {
@@ -70,9 +66,12 @@ public class CustomerAdapter extends ArrayAdapter<Customers> {
 
         // onclick edit button
         editCustomerBtn.setOnClickListener(view -> {
-            if (customerEditButtonClick != null) {
-                customerEditButtonClick.onButtonClickListener(position, customer);
-            }
+            if (customerButtonClick != null) customerButtonClick.onButtonClickListener(position, customer, "EDIT");
+        });
+
+        // onclick delete button
+        deleteCustomerBtn.setOnClickListener(view -> {
+            if (customerButtonClick != null) customerButtonClick.onButtonClickListener(position, customer, "DELETE");
         });
 
         // return the completed view to screen

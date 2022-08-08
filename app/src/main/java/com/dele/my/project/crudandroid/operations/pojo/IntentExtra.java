@@ -6,6 +6,16 @@ public class IntentExtra {
     private int intValue;
     private String stringValue;
 
+    @Override
+    public String toString() {
+        return "IntentExtra{" +
+                "key='" + key + '\'' +
+                ", longValue=" + longValue +
+                ", intValue=" + intValue +
+                ", stringValue='" + stringValue + '\'' +
+                '}';
+    }
+
     public IntentExtra(String key, long longValue) {
         this.key = key;
         this.longValue = longValue;

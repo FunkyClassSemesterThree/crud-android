@@ -65,7 +65,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="ADD NEW CUSTOMER"
+                android:text="SAVE CUSTOMER"
                 android:id="@+id/customerSubmitBtn"
                 android:layout_marginTop="30dp"
                 android:layout_below="@id/customerGender"

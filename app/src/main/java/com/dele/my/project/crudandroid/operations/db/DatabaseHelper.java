@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -36,8 +37,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.getReadableDatabase();
     }
 
+    protected int remove(String table, String whereClause, String[] whereArgs) {
+        return this.write().delete(table, whereClause, whereArgs);
+    }
+
     protected Long create(Map<String, String> map, String table) {
         ContentValues contentValues = Helper.createRecord(map);
+        Log.d(AppConstants.APPLICATION_TAG, "Data Five");
         return this.write().insert(table, null, contentValues);
     }
 

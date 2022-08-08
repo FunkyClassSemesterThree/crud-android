@@ -24,12 +24,14 @@ public class CustomerRecords extends DatabaseHelper {
     }
 
     public long createCustomer(Customers customer) {
+        Log.d(AppConstants.APPLICATION_TAG, "Data Two :: " + customer.toString());
         Map<String, String> map = new HashMap<>();
         map.put("FULL_NAME", customer.getFullName());
         map.put("EMAIL_ADDRESS", customer.getEmailAddress());
         map.put("GENDER", customer.getGender());
         map.put("PHONE_NUMBER", customer.getPhoneNumber());
         map.put("UUID", customer.getUuid());
+        Log.d(AppConstants.APPLICATION_TAG, "Data Three");
         return this.create(map, AppConstants.CUSTOMER_TABLE_NAME);
     }
 
@@ -42,6 +44,16 @@ public class CustomerRecords extends DatabaseHelper {
         return this.update(map, AppConstants.CUSTOMER_TABLE_NAME, "id = ?", new String[] {
                 customer.getId() + ""
         });
+    }
+
+    public Integer deleteCustomer(int customerId) {
+        return this.remove(
+                AppConstants.CUSTOMER_TABLE_NAME,
+                "id = ?",
+                new String[]{
+                        customerId + ""
+                }
+        );
     }
 
     @SuppressLint("Range")
