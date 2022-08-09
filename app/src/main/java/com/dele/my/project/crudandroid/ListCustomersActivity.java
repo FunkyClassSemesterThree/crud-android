@@ -1,14 +1,18 @@
 package com.dele.my.project.crudandroid;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dele.my.project.crudandroid.operations.db.customers.CustomerAdapter;
 import com.dele.my.project.crudandroid.operations.db.customers.CustomerRecords;
+import com.dele.my.project.crudandroid.operations.interfaces.CustomerButtonClick;
 import com.dele.my.project.crudandroid.operations.pojo.Customers;
 import com.dele.my.project.crudandroid.operations.pojo.IntentExtra;
 import com.dele.my.project.crudandroid.operations.utils.AppConstants;
@@ -17,7 +21,7 @@ import com.dele.my.project.crudandroid.operations.utils.Helper;
 import java.util.ArrayList;
 
 public class ListCustomersActivity extends AppCompatActivity
-        implements CustomerAdapter.CustomerButtonClick {
+        implements CustomerButtonClick {
 
     private CustomerRecords customerRecords;
     private ListView listViewForCustomers;
@@ -61,8 +65,28 @@ public class ListCustomersActivity extends AppCompatActivity
 
         if ("DELETE".equals(action)) {
             // handle delete logic
-            int hasBeenDeleted = customerRecords.deleteCustomer(customer.getId().intValue());
-            if (hasBeenDeleted > 0) populateCustomers();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Do you wish to delete " + customer.getFullName())
+                    .setTitle("Delete Customer")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            int hasBeenDeleted = customerRecords.deleteCustomer(customer.getId().intValue());
+                            if (hasBeenDeleted > 0) populateCustomers();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(ListCustomersActivity.this, "We could not delete " + customer.getFullName(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Delete Customer");
+            alertDialog.show();
+
         }
 
     }

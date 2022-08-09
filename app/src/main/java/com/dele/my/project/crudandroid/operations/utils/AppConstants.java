@@ -23,4 +23,7 @@ public class AppConstants {
 
     public static final String CUSTOMER_ID_KEY = "CUS_KEY";
 
+    public static final String CUSTOMER_CHANNEL_ID = "CUSTOMER_CHANNEL_ID";
+    public static final String CUSTOMER_CHANNEL_NAME = "CUSTOMER_CHANNEL_NAME";
+
 }

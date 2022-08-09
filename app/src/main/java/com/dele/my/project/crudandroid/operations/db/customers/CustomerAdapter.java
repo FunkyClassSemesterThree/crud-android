@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dele.my.project.crudandroid.R;
+import com.dele.my.project.crudandroid.operations.interfaces.CustomerButtonClick;
 import com.dele.my.project.crudandroid.operations.pojo.Customers;
 import com.dele.my.project.crudandroid.operations.utils.Helper;
 
@@ -22,10 +23,6 @@ import java.util.ArrayList;
 public class CustomerAdapter extends ArrayAdapter<Customers> {
 
     CustomerButtonClick customerButtonClick;
-
-    public interface CustomerButtonClick {
-        void onButtonClickListener(int position, Customers customer, String action);
-    }
 
     public void setCustomerButtonListener(CustomerButtonClick listener) {
         this.customerButtonClick = listener;

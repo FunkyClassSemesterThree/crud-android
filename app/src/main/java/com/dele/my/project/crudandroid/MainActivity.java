@@ -3,6 +3,7 @@ package com.dele.my.project.crudandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import com.dele.my.project.crudandroid.operations.pojo.Customers;
 import com.dele.my.project.crudandroid.operations.pojo.NotificationData;
 import com.dele.my.project.crudandroid.operations.utils.AppConstants;
 import com.dele.my.project.crudandroid.operations.utils.Helper;
+import com.dele.my.project.crudandroid.receivers.ConnectivityChangedReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView formMessageField;
 
     private CustomerRecords customerRecords;
+
+    private ConnectivityChangedReceiver changedReceiver;
+    private IntentFilter intentFilter;
 
     private Bundle bundle;
 
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         handleSubmit();
         handleNavigate();
         populateByCustomerId();
+        setupAndStartReceiver();
     }
 
     private void handleSubmit() {
@@ -134,10 +140,14 @@ public class MainActivity extends AppCompatActivity {
             if (actionPerformed > 0) {
                 formMessageField.setText(AppConstants.CUSTOMER_SUCCESS_MESSAGE);
                 Toast.makeText(this, AppConstants.CUSTOMER_SUCCESS_MESSAGE, Toast.LENGTH_LONG).show();
-//                NotificationData notificationData = new NotificationData();
-//                notificationData.setContentTitle("Welcome to Our Application");
-//                notificationData.setContentText("We welcome you to our application with warm regards");
-//                Helper.createNotification(this, notificationData, MainActivity.class);
+                Helper.createNotificationChannel(this, AppConstants.CUSTOMER_CHANNEL_ID, AppConstants.CUSTOMER_CHANNEL_NAME);
+                Helper.createNotification(
+                        this,
+                        AppConstants.CUSTOMER_CHANNEL_ID,
+                        "Welcome to Our Application",
+                        "We welcome you to our application with warm regards",
+                        R.drawable.ic_launcher_background
+                );
             } else formMessageField.setText(AppConstants.CUSTOMER_ERROR_MESSAGE);
 
         });
@@ -158,6 +168,26 @@ public class MainActivity extends AppCompatActivity {
                 customerPhoneNumber.setText(defaultCustomer.getPhoneNumber());
             }
         }
+    }
+
+    private void setupAndStartReceiver() {
+        changedReceiver = new ConnectivityChangedReceiver();
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(getPackageName() + "android.net.conn.CONNECTIVITY_CHANGE");
+        Intent intent = new Intent("com.dele.my.project.crudandroid.CHANGE_CONNECTION");
+        sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(changedReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(changedReceiver);
     }
 
 }

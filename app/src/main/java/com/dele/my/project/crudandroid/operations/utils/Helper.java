@@ -1,17 +1,21 @@
 package com.dele.my.project.crudandroid.operations.utils;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.dele.my.project.crudandroid.R;
 import com.dele.my.project.crudandroid.operations.pojo.IntentExtra;
 import com.dele.my.project.crudandroid.operations.pojo.NotificationData;
 
@@ -119,18 +123,23 @@ public class Helper {
                 .collect(Collectors.joining(" "));
     }
 
-    public static void createNotification(Context context, NotificationData notificationData, Class className) {
+    public static void createNotificationChannel(Context context, String channelId, String channelName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    public static void createNotification(Context context, String channelId, String contentTitle, String contentText, int imageRes) {
         NotificationCompat.Builder builder = new NotificationCompat
-                .Builder(context)
-                .setContentTitle(notificationData.getContentTitle())
-                .setContentText(notificationData.getContentText());
-        Intent notificationIntent = new Intent(context, className);
-        PendingIntent contentIntent =
-                PendingIntent.getActivity(context, 0,
-                        notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
+                .Builder(context, channelId)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setSmallIcon(imageRes)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(context);
+        notificationManager.notify(11, builder.build());
     }
 
 }
