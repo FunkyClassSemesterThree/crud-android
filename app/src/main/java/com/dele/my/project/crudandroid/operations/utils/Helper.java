@@ -142,4 +142,8 @@ public class Helper {
         notificationManager.notify(11, builder.build());
     }
 
+    public static boolean findMultiples(int number, int modulus) {
+        return (number % modulus  == 0);
+    }
+
 }

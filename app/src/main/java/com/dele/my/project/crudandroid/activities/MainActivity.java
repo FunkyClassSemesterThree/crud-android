@@ -1,23 +1,25 @@
-package com.dele.my.project.crudandroid;
+package com.dele.my.project.crudandroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dele.my.project.crudandroid.R;
+import com.dele.my.project.crudandroid.activities.ListCustomersActivity;
 import com.dele.my.project.crudandroid.operations.db.customers.CustomerRecords;
 import com.dele.my.project.crudandroid.operations.pojo.Customers;
-import com.dele.my.project.crudandroid.operations.pojo.NotificationData;
 import com.dele.my.project.crudandroid.operations.utils.AppConstants;
 import com.dele.my.project.crudandroid.operations.utils.Helper;
 import com.dele.my.project.crudandroid.receivers.ConnectivityChangedReceiver;
+import com.dele.my.project.crudandroid.services.UserNotificationService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private CustomerRecords customerRecords;
 
     private ConnectivityChangedReceiver changedReceiver;
-    private IntentFilter intentFilter;
 
     private Bundle bundle;
 
@@ -172,16 +173,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAndStartReceiver() {
         changedReceiver = new ConnectivityChangedReceiver();
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(getPackageName() + "android.net.conn.CONNECTIVITY_CHANGE");
-        Intent intent = new Intent("com.dele.my.project.crudandroid.CHANGE_CONNECTION");
-        sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(changedReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        startService(new Intent(this, UserNotificationService.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(changedReceiver, intentFilter);
+        registerReceiver(changedReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override

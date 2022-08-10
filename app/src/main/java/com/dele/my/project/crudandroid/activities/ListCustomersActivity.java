@@ -1,15 +1,15 @@
-package com.dele.my.project.crudandroid;
+package com.dele.my.project.crudandroid.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dele.my.project.crudandroid.R;
 import com.dele.my.project.crudandroid.operations.db.customers.CustomerAdapter;
 import com.dele.my.project.crudandroid.operations.db.customers.CustomerRecords;
 import com.dele.my.project.crudandroid.operations.interfaces.CustomerButtonClick;
