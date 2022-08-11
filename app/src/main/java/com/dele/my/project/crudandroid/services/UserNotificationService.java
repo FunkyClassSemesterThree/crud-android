@@ -43,7 +43,7 @@ public class UserNotificationService extends Service {
                     "Hey!!, Our customer base just crossed a multiple of 3",
                     R.drawable.ic_launcher_background);
         }
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
