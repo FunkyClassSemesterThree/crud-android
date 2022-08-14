@@ -1,5 +1,6 @@
 package com.dele.my.project.crudandroid.operations.utils;
 
+@SuppressWarnings("unused")
 public class CodeDump {
 
     /**
